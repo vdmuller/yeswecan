@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+<f:view contentType="text/html" locale="#currentLocale" encoding="ISO-8859-1"/>
+<h:head>
+	<!-- Bootstrap core CSS -->
+	<h:outputStylesheet library="css" name="bootstrap.min.css" />
+	<h:outputScript library="scripts" name="bootstrap.min.js" />
+	<h:outputScript library="scripts" name="autogrow.min.js" />
+
+	<title>Yes we can</title>
+</h:head>
+
+<h:body>
+	<p:growl id="growls" escape="false" gloentidadesAIEbalOnly="true"
+		showDetail="false" showSummary="false" />
+
+	<div class="container">
+		<div class="starter-template">
+			<h1>Consultar Natural Language Understanding</h1>
+
+			<h:form id="formCalculador" styleClass="form-horizontal">
+				<pe:importEnum type="serpro.defns.hackathon.enums.ComplexidadeEnum"
+					var="ComplexidadeEnum" allSuffix="ALL_VALUES" />
+
+				<div class="well well-sm">
+					<div class="form-group">
+						<h:outputLabel value="Texto" for="Texto"
+							styleClass="col-sm-2 control-label" />
+						<div class="col-sm-10">
+							<p:inputTextarea value="#{calculadorPFMB.texto}" id="texto"
+								styleClass="form-control" style="width: 100%; height: 100px" />
+							<p class="help-block">Ex: Mostrar Disciplinas Sala.</p>
+						</div>
+					</div>
+
+					<p:separator />
+
+					<div class="form-group">
+						<div class="col-sm-10 col-md-offset-2">
+							<p:commandButton value="Enviar" id="btEnviar"
+								styleClass="btn btn-primary" ajax="false"
+								actionListener="#{calculadorPFMB.processar()}" />
+						</div>
+					</div>
+				</div>
+
+				<p:separator />
+
+				<h:panelGroup id="painelTotal">
+				<h:outputLabel value="Total calculado:" for="total"
+					styleClass="col-sm-2 control-label" />
+				<div class="col-sm-10">
+					<h:outputText value="#{calculadorPFMB.valorTotal}" id="total"
+						styleClass="form-control" />
+				</div>
+				</h:panelGroup>
+				
+				<br />
+				
+				<p:separator />
+
+				<h:panelGroup id="painelALI">
+					<h:panelGroup rendered="#{not empty calculadorPFMB.entidadesALI}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Arquivos lógicos internos (ALI) - PF:#{calculadorPFMB.totalALI}</div>
+							<div class="panel-body">
+								<p:dataTable value="#{calculadorPFMB.entidadesALI}" var="e">
+									<p:column headerText="" style="width: 5%;">
+										<p:commandButton
+											actionListener="#{calculadorPFMB.removerEntidadeALI(e)}"
+											icon="ui-icon-close" title="Remover"
+											update=":formCalculador:painelALI :formCalculador:painelTotal" />
+									</p:column>
+									<p:column headerText="Nome">
+										<h:outputText value="#{e.nome}" />
+									</p:column>
+									<p:column headerText="Complexidade" style="width: 15%;">
+										<p:selectOneMenu value="#{e.complexidade}"
+											style="width: 100%;">
+											<f:selectItem itemLabel="#{ComplexidadeEnum.BAIXA.descricao}"
+												itemValue="#{ComplexidadeEnum.BAIXA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.MEDIA.descricao}"
+												itemValue="#{ComplexidadeEnum.MEDIA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.ALTA.descricao}"
+												itemValue="#{ComplexidadeEnum.ALTA}" />
+
+											<f:ajax event="change" global="false"
+												listener="#{calculadorPFMB.processarComplexidade(e)}"
+												render=":formCalculador:painelALI :formCalculador:painelTotal" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column headerText="Pontos de função"
+										style="width: 20%; text-align: right;">
+										<h:outputText value="#{e.pontos}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="painelAIE">
+					<h:panelGroup rendered="#{not empty calculadorPFMB.entidadesAIE}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Arquivos de interface externa
+								(AIE) - PF:#{calculadorPFMB.totalAIE}</div>
+							<div class="panel-body">
+								<p:dataTable value="#{calculadorPFMB.entidadesAIE}" var="e">
+									<p:column headerText="" style="width: 5%;">
+										<p:commandButton
+											actionListener="#{calculadorPFMB.removerEntidadeAIE(e)}"
+											icon="ui-icon-close" title="Remover"
+											update=":formCalculador:painelAIE :formCalculador:painelTotal" />
+									</p:column>
+									<p:column headerText="Nome">
+										<h:outputText value="#{e.nome}" />
+									</p:column>
+									<p:column headerText="Complexidade" style="width: 15%;">
+										<p:selectOneMenu value="#{e.complexidade}"
+											style="width: 100%;">
+											<f:selectItem itemLabel="#{ComplexidadeEnum.BAIXA.descricao}"
+												itemValue="#{ComplexidadeEnum.BAIXA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.MEDIA.descricao}"
+												itemValue="#{ComplexidadeEnum.MEDIA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.ALTA.descricao}"
+												itemValue="#{ComplexidadeEnum.ALTA}" />
+
+											<f:ajax event="change" global="false"
+												listener="#{calculadorPFMB.processarComplexidade(e)}"
+												render=":formCalculador:painelAIE :formCalculador:painelTotal" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column headerText="Pontos de função"
+										style="width: 20%; text-align: right;">
+										<h:outputText value="#{e.pontos}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="painelEE">
+					<h:panelGroup rendered="#{not empty calculadorPFMB.entidadesEE}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Entradas externas (EE) - PF:#{calculadorPFMB.totalEE}</div>
+							<div class="panel-body">
+								<p:dataTable value="#{calculadorPFMB.entidadesEE}" var="e">
+									<p:column headerText="" style="width: 5%;">
+										<p:commandButton
+											actionListener="#{calculadorPFMB.removerEntidadeEE(e)}"
+											icon="ui-icon-close" title="Remover"
+											update=":formCalculador:painelEE :formCalculador:painelTotal" />
+									</p:column>
+									<p:column headerText="Nome">
+										<h:outputText value="#{e.nome}" />
+									</p:column>
+									<p:column headerText="Complexidade" style="width: 15%;">
+										<p:selectOneMenu value="#{e.complexidade}"
+											style="width: 100%;">
+											<f:selectItem itemLabel="#{ComplexidadeEnum.BAIXA.descricao}"
+												itemValue="#{ComplexidadeEnum.BAIXA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.MEDIA.descricao}"
+												itemValue="#{ComplexidadeEnum.MEDIA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.ALTA.descricao}"
+												itemValue="#{ComplexidadeEnum.ALTA}" />
+
+											<f:ajax event="change" global="false"
+												listener="#{calculadorPFMB.processarComplexidade(e)}"
+												render=":formCalculador:painelEE :formCalculador:painelTotal" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column headerText="Pontos de função"
+										style="width: 20%; text-align: right;">
+										<h:outputText value="#{e.pontos}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="painelSE">
+					<h:panelGroup rendered="#{not empty calculadorPFMB.entidadesSE}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Saídas externas (SE) - PF:#{calculadorPFMB.totalSE}</div>
+							<div class="panel-body">
+								<p:dataTable value="#{calculadorPFMB.entidadesSE}" var="e">
+									<p:column headerText="" style="width: 5%;">
+										<p:commandButton
+											actionListener="#{calculadorPFMB.removerEntidadeSE(e)}"
+											icon="ui-icon-close" title="Remover"
+											update=":formCalculador:painelSE :formCalculador:painelTotal" />
+									</p:column>
+									<p:column headerText="Nome">
+										<h:outputText value="#{e.nome}" />
+									</p:column>
+									<p:column headerText="Complexidade" style="width: 15%;">
+										<p:selectOneMenu value="#{e.complexidade}"
+											style="width: 100%;">
+											<f:selectItem itemLabel="#{ComplexidadeEnum.BAIXA.descricao}"
+												itemValue="#{ComplexidadeEnum.BAIXA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.MEDIA.descricao}"
+												itemValue="#{ComplexidadeEnum.MEDIA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.ALTA.descricao}"
+												itemValue="#{ComplexidadeEnum.ALTA}" />
+
+											<f:ajax event="change" global="false"
+												listener="#{calculadorPFMB.processarComplexidade(e)}"
+												render=":formCalculador:painelSE :formCalculador:painelTotal" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column headerText="Pontos de função"
+										style="width: 20%; text-align: right;">
+										<h:outputText value="#{e.pontos}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="painelCE">
+					<h:panelGroup rendered="#{not empty calculadorPFMB.entidadesCE}">
+						<div class="panel panel-primary">
+							<div class="panel-heading">Consultas externas (CE) - PF:#{calculadorPFMB.totalCE}</div>
+							<div class="panel-body">
+								<p:dataTable value="#{calculadorPFMB.entidadesCE}" var="e">
+									<p:column headerText="" style="width: 5%;">
+										<p:commandButton
+											actionListener="#{calculadorPFMB.removerEntidadeCE(e)}"
+											icon="ui-icon-close" title="Remover"
+											update=":formCalculador:painelCE :formCalculador:painelTotal" />
+									</p:column>
+									<p:column headerText="Nome">
+										<h:outputText value="#{e.nome}" />
+									</p:column>
+									<p:column headerText="Complexidade" style="width: 15%;">
+										<p:selectOneMenu value="#{e.complexidade}"
+											style="width: 100%;">
+											<f:selectItem itemLabel="#{ComplexidadeEnum.BAIXA.descricao}"
+												itemValue="#{ComplexidadeEnum.BAIXA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.MEDIA.descricao}"
+												itemValue="#{ComplexidadeEnum.MEDIA}" />
+											<f:selectItem itemLabel="#{ComplexidadeEnum.ALTA.descricao}"
+												itemValue="#{ComplexidadeEnum.ALTA}" />
+
+											<f:ajax event="change" global="false"
+												listener="#{calculadorPFMB.processarComplexidade(e)}"
+												render=":formCalculador:painelCE :formCalculador:painelTotal" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column headerText="Pontos de função"
+										style="width: 20%; text-align: right;">
+										<h:outputText value="#{e.pontos}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+			</h:form>
+		</div>
+	</div>
+
+	<script>
+	   $(document).ready(function() {
+		    $('textarea').autogrow({onInitialize: true});
+	   });
+	</script>
+
+</h:body>
+
+</html>
