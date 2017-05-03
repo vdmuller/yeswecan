@@ -1,0 +1,9 @@
+applications:
+- path: target/YesWeCanApp.war
+  memory: 256M
+  instances: 1
+  domain: mybluemix.net
+  name: yeswecanapp
+  host: yeswecanapp
+  disk_quota: 1024M
+  buildpack: java_buildpack
