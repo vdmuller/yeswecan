@@ -1,8 +1,6 @@
 package br.servlet;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,14 +12,13 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.NaturalL
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalysisResults;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.AnalyzeOptions;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesOptions;
-import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.EntitiesResult;
 import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Features;
 
 import br.OrdemPorTipo;
 
 
 @WebServlet("/nlu")
-public class SimpleServlet extends HttpServlet {
+public class NLUServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     
