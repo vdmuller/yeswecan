@@ -39,39 +39,12 @@
                 class="form-horizontal">
 				
 				<div class="form-group">
-					<label for="user" class="col-sm-2 control-label">user</label>
-					<div class="col-sm-10"> 
-						<input type="text" name="user"
-						   id="user" class="form-control"
-						   value="<c:out value="${param.user}" default="d232f093-85ce-48a8-8d16-889f5c24c8dc"/>">
-					</div>
-				</div>
-
-				<div class="form-group">
-				    <label for="pass" class="col-sm-2 control-label">pass</label> 
-					<div class="col-sm-10"> 
-						<input type="text" name="pass"
-						   id="pass" class="form-control"
-						   value="<c:out value="${param.pass}" default="3J8TCYLaIKlo"/>" />
-				    </div>
-				</div>
-
-				<div class="form-group">
 				    <label for="model_id" class="col-sm-2 control-label">model id</label>
 				    <div class="col-sm-10">  
 						<input type="text" name="modelId"
 						   id="model_id" class="form-control"
-						   value="<c:out value="${param.modelId}" default="20:bae850be-5ab6-4140-83bc-4e6533f968f7"/>" />
+						   value="<c:out value="${param.modelId}" default="20:43dbdba7-5f72-45ff-9653-2703038ef019"/>" />
 					</div>
-				</div>
-
-				<div class="form-group">
-				    <label for="language" class="col-sm-2 control-label">language</label>
-				    <div class="col-sm-10">  
-						<input type="text" name="language"
-						   id="language" class="form-control"
-						   value="<c:out value="${param.language}" default="pt"/>" />
-					</div> 
 				</div>
 
 				<div class="form-group">
@@ -105,8 +78,24 @@
 						</c:forEach>
 					</div>
 				</div>
+				
+				<h3>Contagem PF</h3>
+                <div>
+                    CE: ${requestScope.contagemPF.contadorCE}<br>
+                    SE: ${requestScope.contagemPF.contadorSE}<br>
+                    EE: ${requestScope.contagemPF.contadorEE}<br>
+                    ALI: ${requestScope.contagemPF.contadorALI}<br>
+                    AIE: ${requestScope.contagemPF.contadorAIE}<br>
+                    Total PF: ${requestScope.contagemPF.totalPF}
+                </div>
+                
 	
+	            <h3>Resposta Processada</h3>
 				<pre>${requestScope.response}</pre>
+				
+				
+				<h3>Resposta Original</h3>
+				<pre>${requestScope.responseOriginal}</pre>
 			</c:if>
 			
 		</div>

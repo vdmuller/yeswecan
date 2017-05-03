@@ -1,4 +1,4 @@
-package br;
+package br.util;
 
 import java.util.Comparator;
 
