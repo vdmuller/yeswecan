@@ -80,6 +80,7 @@
 						<textarea name="texto" 
 						   id="texto" class="form-control"
 						   style="width: 100%; height: 100px" />${param.texto}</textarea>
+						<p class="help-block">Ex: Mostrar Disciplinas Sala.</p>
 					</div>
 				</div>
                 
