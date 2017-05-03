@@ -19,7 +19,6 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Fe
 import com.rits.cloning.Cloner;
 
 import br.dto.ContagemPF;
-import br.util.OrdemPorTipo;
 
 
 @WebServlet("/nlu")
@@ -89,7 +88,7 @@ public class NLUServlet extends HttpServlet {
 		
 		ContagemPF contagemPF = contarPF(entities);
 		
-		entities.sort(new OrdemPorTipo());
+		//entities.sort(new OrdemPorTipo());
 		
 		request.setAttribute("responseOriginal", cloneResponse);
 		request.setAttribute("response", response);
