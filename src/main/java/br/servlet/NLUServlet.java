@@ -1,6 +1,8 @@
 package br.servlet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,6 +58,10 @@ public class NLUServlet extends HttpServlet {
 	private void consultarNLU(HttpServletRequest request) {
 		String modelId = request.getParameter("modelId");
 		String text = request.getParameter("texto");
+		//byte[] bytes = text.getBytes(Charset.forName("UTF-8"));
+		//String texto = new String(bytes); // covert byteArray
+
+		//System.out.println(texto);
 		
 		NaturalLanguageUnderstanding service = new NaturalLanguageUnderstanding(
 				NaturalLanguageUnderstanding.VERSION_DATE_2017_02_27,
