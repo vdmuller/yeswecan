@@ -20,6 +20,7 @@ import com.ibm.watson.developer_cloud.natural_language_understanding.v1.model.Fe
 import com.rits.cloning.Cloner;
 
 import br.dto.ContagemPF;
+import br.util.OrdemPorTipo;
 
 
 @WebServlet("/nlu")
@@ -89,7 +90,7 @@ public class NLUServlet extends HttpServlet {
 		
 		ContagemPF contagemPF = contarPF(entities);
 		
-		//entities.sort(new OrdemPorTipo());
+		entities.sort(new OrdemPorTipo());
 		
 		request.setAttribute("responseOriginal", cloneResponse);
 		request.setAttribute("response", response);
@@ -102,19 +103,19 @@ public class NLUServlet extends HttpServlet {
 		for (EntitiesResult item : entities) {
 			switch (item.getType()) {
 			case CE:
-				contagemPF.contarCE();
+				contagemPF.contarCE(item);
 				break;
 			case EE:
-				contagemPF.contarEE();
+				contagemPF.contarEE(item);
 				break;
 			case SE:
-				contagemPF.contarSE();
+				contagemPF.contarSE(item);
 				break;
 			case ALI:
-				contagemPF.contarALI();
+				contagemPF.contarALI(item);
 				break;
 			case AIE:
-				contagemPF.contarAIE();
+				contagemPF.contarAIE(item);
 				break;
 			default:
 				contagemPF.contarVazio();
@@ -139,20 +140,21 @@ public class NLUServlet extends HttpServlet {
 	private List<EntitiesResult> gerarFuncoesParaCRUD(List<EntitiesResult> itensCRUD) {
 		List<EntitiesResult> novosItensParaCRUD = new ArrayList<>();
 		for (EntitiesResult item : itensCRUD ) {
-			novosItensParaCRUD.add(gerarItem(EE, "Incluir "+item.getText()));
-			novosItensParaCRUD.add(gerarItem(EE, "Alterar "+item.getText()));
-			novosItensParaCRUD.add(gerarItem(EE, "Excluir "+item.getText()));
-			novosItensParaCRUD.add(gerarItem(CE, "Consultar Lista "+item.getText()));
-			novosItensParaCRUD.add(gerarItem(CE, "Consultar Detalhes "+item.getText()));
+			novosItensParaCRUD.add(gerarItem(EE, "Incluir "+item.getText(), null));
+			novosItensParaCRUD.add(gerarItem(EE, "Alterar "+item.getText(), null));
+			novosItensParaCRUD.add(gerarItem(EE, "Excluir "+item.getText(), 3d));
+			novosItensParaCRUD.add(gerarItem(CE, "Consultar Lista "+item.getText(), null));
+			novosItensParaCRUD.add(gerarItem(CE, "Consultar Detalhes "+item.getText(), 3d));
 		}
 		return novosItensParaCRUD;
 	}
 
-	private EntitiesResult gerarItem(String tipo, String texto) {
+	private EntitiesResult gerarItem(String tipo, String texto, Double complexidade) {
 		EntitiesResult item = new EntitiesResult();
 		item.setType(tipo);
 		item.setText(texto);
 		item.setCount(1);
+		item.setRelevance(complexidade);
 		return item;
 	}
 

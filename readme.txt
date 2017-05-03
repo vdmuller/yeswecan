@@ -17,3 +17,8 @@ ok=visualizar retorno
 ok-app web
 ok-deploy no bluemix
 ok-bootstrap
+
+ok-tabelas em entidades e contagem pf
+ok-calculo pf correto
+    -calcular algumas operações do crud como baixas
+    

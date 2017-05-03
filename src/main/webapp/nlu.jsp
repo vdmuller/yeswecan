@@ -43,7 +43,7 @@
 				    <div class="col-sm-10">  
 						<input type="text" name="modelId"
 						   id="model_id" class="form-control"
-						   value="<c:out value="${param.modelId}" default="20:43dbdba7-5f72-45ff-9653-2703038ef019"/>" />
+						   value="<c:out value="${param.modelId}" default="20:f678f91e-5fde-4a19-b6e7-98aff4414bf2"/>" />
 					</div>
 				</div>
 
@@ -69,34 +69,92 @@
 				<div class="panel panel-primary">
 	                <div class="panel-heading">Entidades</div>
 	                <div class="panel-body">
-						<c:forEach var="entitiesResult"
-							items="${requestScope.response.entities}"> 
-					       Tipo: ${entitiesResult.type},
-					       Texto: ${entitiesResult.text},
-					       Contagem: ${entitiesResult.count}
-					       <br>
-						</c:forEach>
+	                   <table class="table table-striped table-condensed">
+	                   <thead>
+	                       <tr>
+	                           <th>Tipo</th>
+	                           <th>Texto</th>
+                               <th>Ocorrências</th>
+	                       </tr>
+	                   </thead>
+                       <tbody>
+						   <c:forEach var="entitiesResult"
+								items="${requestScope.response.entities}"> 
+						      <tr>
+						          <td>${entitiesResult.type}</td>
+						          <td>${entitiesResult.text}</td>
+						          <td>${entitiesResult.count}</td>
+						       </tr>
+							</c:forEach>
+					   </tbody>
+						</table>
 					</div>
 				</div>
 				
-				<h3>Contagem PF</h3>
-                <div>
-                    CE: ${requestScope.contagemPF.contadorCE}<br>
-                    SE: ${requestScope.contagemPF.contadorSE}<br>
-                    EE: ${requestScope.contagemPF.contadorEE}<br>
-                    ALI: ${requestScope.contagemPF.contadorALI}<br>
-                    AIE: ${requestScope.contagemPF.contadorAIE}<br>
-                    Total PF: ${requestScope.contagemPF.totalPF}
+				<div class="panel panel-primary">
+                    <div class="panel-heading">Contagem de PF</div>
+                    <div class="panel-body">
+                        <table class="table table-bordered table-condensed">
+	                       <thead>
+	                           <tr>
+	                               <th>CE <small class="text-muted">(3 PF / 4 PF)</small></th>
+	                               <th>SE <small class="text-muted">(5 PF)</small></th>
+	                               <th>EE <small class="text-muted">(3 PF / 4 PF)</small></th>
+	                               <th>ALI <small class="text-muted">(10 PF)</small></th>
+	                               <th>AIE <small class="text-muted">(7 PF)</small></th>
+	                               <th>Total PF</th>
+	                           </tr>
+	                       </thead>
+	                       <tbody>
+	                            <tr>
+	                                <td>${requestScope.contagemPF.contadorCE}</td>
+		                            <td>${requestScope.contagemPF.contadorSE}</td>
+		                            <td>${requestScope.contagemPF.contadorEE}</td>
+		                            <td>${requestScope.contagemPF.contadorALI}</td>
+		                            <td>${requestScope.contagemPF.contadorAIE}</td>
+		                            <td><strong>${requestScope.contagemPF.totalPF}</strong></td>
+		                        </tr>
+		                   </tbody>
+	                    </table>
+	                </div>
                 </div>
                 
-	
-	            <h3>Resposta Processada</h3>
-				<pre>${requestScope.response}</pre>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		            <div class="panel panel-default">
+		                <div class="panel-heading" role="tab" id="heading1">
+		                  <h4 class="panel-title">
+		                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="false" aria-controls="collapse1">
+		                      Resposta Processada
+		                    </a>
+		                  </h4>
+		                </div>
+		                <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+		                  <div class="panel-body">
+		                    <pre>${requestScope.response}</pre>
+		                  </div>
+		                </div>
+		              </div>
+		              
+		             <div class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="heading2">
+                          <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                              Resposta Original
+                            </a>
+                          </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                          <div class="panel-body">
+                            <pre>${requestScope.responseOriginal}</pre>
+                          </div>
+                        </div>
+                      </div>
+	            </div>
 				
-				
-				<h3>Resposta Original</h3>
-				<pre>${requestScope.responseOriginal}</pre>
 			</c:if>
+			
+			
+			  
 			
 		</div>
 
