@@ -128,14 +128,14 @@ public class NLUServlet extends HttpServlet {
 	}
 
 	private void transformarCRUD(List<EntitiesResult> entities) {
-		List<EntitiesResult> itensCRUD = entities.stream()            
+		/*List<EntitiesResult> itensCRUD = entities.stream()            
                 .filter(line -> line.getType().equals(CRUD)) 
                 .collect(Collectors.toList()); 
 		
 		entities.removeAll(itensCRUD);	
 		
 		List<EntitiesResult> novosItensParaCRUD = gerarFuncoesParaCRUD(itensCRUD);
-		entities.addAll(novosItensParaCRUD);
+		entities.addAll(novosItensParaCRUD);*/
 	}	
 
 	private List<EntitiesResult> gerarFuncoesParaCRUD(List<EntitiesResult> itensCRUD) {
