@@ -20,5 +20,5 @@ ok-bootstrap
 
 ok-tabelas em entidades e contagem pf
 ok-calculo pf correto
-    -calcular algumas operações do crud como baixas
+    ok-calcular algumas operações do crud como baixas
     
